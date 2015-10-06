@@ -1,0 +1,11 @@
+Your task 3 implementation should return 5024896 when you feed it 1000x1000.txt.
+
+(For your debugging purposes, these are the maximum subarray sums for each
+individual direction:
+
+Horizontal: 1241356
+Vertical: 1291998
+Diagonal: 1114599
+Counterdiagonal: 1376943)
+
+
