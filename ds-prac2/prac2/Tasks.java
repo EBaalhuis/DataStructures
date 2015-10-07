@@ -14,11 +14,11 @@ public class Tasks {
 	// --------------------------------------------------------
 
 	public static int task1(int[] a) {
-		int n = a.length;
-		return recursiveCutRod(a, n);
+		int len = a.length;
+		return recursiveCutRod(a, len);
 	}
 
-	public static int recursiveCutRod(int[] a, int len) {
+	private static int recursiveCutRod(int[] a, int len) {
 		if (len == 0) {
 			// End condition: rod of length 0 has no value.
 			return 0;
@@ -26,7 +26,7 @@ public class Tasks {
 			int max = -1;
 			for (int i = 0; i < len; i++) {
 				// Try cutting off the last i segments.
-				max = Math.max(max, recursiveCutRod(a, len - (i+1)) + a[i]);
+				max = Math.max(max, recursiveCutRod(a, len - i - 1) + a[i]);
 			}
 			return max;
 		}
@@ -37,8 +37,27 @@ public class Tasks {
 	// --------------------------------------------------------
 
 	public static int task2(int[] a) {
+		int len = a.length;
+		return dynamicCutRod(a, len);
+	}
 
-		return 0;
+	private static int dynamicCutRod(int[] a, int len) {
+		// Make an array for dynamic programming. Position i is the maximum
+		// value that can be gained from a rod of length i.
+		int[] dp = new int[len + 1];
+
+		for (int i = 1; i <= len; i++) {
+			// For each length, starting at 1, determine the max value.
+			int max = -1;
+			for (int j = 0; j < i; j++) {
+				// Consider cutting to each length less than i. 
+				max = Math.max(max, a[j] + dp[i - j - 1]);
+			}
+			// The max we found is the best value for length i.
+			dp[i] = max;
+		}
+		// The solution is the best value for length len.
+		return dp[len];
 	}
 
 	// --------------------------------------------------------
