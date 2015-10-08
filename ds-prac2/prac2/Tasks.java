@@ -14,7 +14,7 @@ public class Tasks {
 	// --------------------------------------------------------
 
 	public static int task1(int[] a) {
-		int len = a.length;
+		int len = a.length - 1;
 		return recursiveCutRod(a, len);
 	}
 
@@ -25,9 +25,9 @@ public class Tasks {
 			return 0;
 		} else { // Rod has length >0, so try every cut that can be made.
 			int max = -1;
-			for (int i = 0; i < len; i++) {
+			for (int i = 1; i <= len; i++) {
 				// Try cutting off the last i segments.
-				max = Math.max(max, recursiveCutRod(a, len - i - 1) + a[i]);
+				max = Math.max(max, recursiveCutRod(a, len - i) + a[i]);
 			}
 			return max;
 		}
@@ -38,7 +38,7 @@ public class Tasks {
 	// --------------------------------------------------------
 
 	public static int task2(int[] a) {
-		int len = a.length;
+		int len = a.length - 1;
 		return dynamicCutRod(a, len);
 	}
 
@@ -51,9 +51,9 @@ public class Tasks {
 		// For each length, starting at 1, determine the max value.
 		for (int i = 1; i <= len; i++) {
 			int max = -1;
-			for (int j = 0; j < i; j++) {
-				// Consider cutting to each length less than i.
-				max = Math.max(max, a[j] + dp[i - j - 1]);
+			for (int j = 1; j <= i; j++) {
+				// Consider cutting j segments off the end.
+				max = Math.max(max, dp[i - j] + a[j]);
 			}
 			// The max we found is the best value for length i.
 			dp[i] = max;
@@ -151,6 +151,7 @@ public class Tasks {
 		// sum of adjacent entries ending at a[i].
 		int[] dp = new int[len];
 		dp[0] = a[0];
+		res = Math.max(res, dp[0]);
 		for (int i = 1; i < len; i++) {
 			// Either start a new sum, or add this entry to the best sum
 			// ending at a[i-1].
